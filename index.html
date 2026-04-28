@@ -1,420 +1,397 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARTS & CRAFTING - Искусство и ремесло</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;700&display=swap');
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>АРТС&КРАФТИНГ | Ремонт одежды в Тамбове</title>
+  <style>
+    :root {
+      --bg-light: #f9fafb;
+      --ios-green: #34c759;
+      --ios-gray: #8e8e93;
+      --ios-blue: #007aff;
+      --card-bg: rgba(255, 255, 255, 0.85);
+      --spring: cubic-bezier(0.4, 0, 0.2, 1.4);
+    }
 
-        :root {
-            --primary-color: #0c4a04;
-            --secondary-color: #38702e;
-            --text-color: #333;
-            --bg-color: #f0f0e8;
-            --card-bg: #fff;
-            --shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+    }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+    body {
+      background-color: var(--bg-light);
+      color: #1c1c1e;
+      line-height: 1.4;
+      overflow-x: hidden;
+    }
 
-        body {
-            font-family: 'Montserrat', sans-serif;
-            color: var(--text-color);
-            background-color: var(--bg-color);
-            line-height: 1.6;
-            scroll-behavior: smooth;
-        }
+    .bg-gradient {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      z-index: -1;
+      background: linear-gradient(180deg, #ffffff 0%, #f0fdf4 100%);
+    }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
+    /* Остров статуса */
+    .status-bar {
+      position: sticky;
+      top: 12px;
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      padding: 0 16px;
+    }
 
-        /* Анимации и общие стили */
-        .fade-in {
-            animation: fadeIn 1.5s ease-in-out;
-        }
+    .island {
+      background: #1c1c1e;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #555;
+    }
 
-        /* Хедер */
-        .header {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px 0;
-            position: relative;
-            z-index: 1000;
-        }
+    .dot.active {
+      background: var(--ios-green);
+      box-shadow: 0 0 10px var(--ios-green);
+      animation: pulse 2s infinite;
+    }
 
-        .header .logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
-            color: var(--primary-color);
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        }
+    @keyframes pulse {
+      0% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.2); }
+      100% { opacity: 1; transform: scale(1); }
+    }
 
-        /* Навигация */
-        nav {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 10px 0;
-            position: sticky;
-            top: 0;
-            z-index: 999;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 20px 16px 80px;
+    }
 
-        nav ul {
-            display: flex;
-            justify-content: center;
-            list-style: none;
-        }
+    header {
+      text-align: center;
+      margin: 30px 0;
+    }
 
-        nav a {
-            text-decoration: none;
-            color: var(--primary-color);
-            font-size: 1.1rem;
-            margin: 0 25px;
-            padding: 8px 15px;
-            font-weight: 700;
-            transition: all 0.3s ease;
-        }
+    /* Анимация перелива логотипа */
+    .logo-animate {
+      font-size: 38px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      color: #1c1c1e;
+      animation: colorShift 2.5s ease-in-out forwards;
+    }
 
-        nav a:hover {
-            color: var(--light-bg);
-            background-color: var(--primary-color);
-            border-radius: 20px;
-        }
+    @keyframes colorShift {
+      0% { color: #1c1c1e; }
+      40% { color: var(--ios-green); }
+      70% { color: var(--ios-green); }
+      100% { color: #1c1c1e; }
+    }
 
-        /* Главная секция */
-        .hero {
-            position: relative;
-            height: 85vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: var(--primary-color);
-            background-color: #e0e0d5;
-            overflow: hidden;
-            border-radius: 15px;
-            box-shadow: var(--shadow);
-            padding: 20px;
-        }
+    header p {
+      color: var(--ios-gray);
+      font-weight: 500;
+      font-size: 17px;
+      margin-top: 5px;
+    }
 
-        .hero h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 5rem;
-            margin-bottom: 15px;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.1);
-        }
+    /* Адрес */
+    .address-widget {
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      padding: 20px;
+      margin-bottom: 24px;
+      border: 1px solid rgba(0,0,0,0.05);
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      cursor: pointer;
+    }
 
-        .hero p {
-            font-size: 1.8rem;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        /* Секции */
-        .section {
-            padding: 80px 0;
-        }
+    .icon-map {
+      width: 45px; height: 45px;
+      background: var(--ios-blue);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      color: white;
+    }
 
-        .section h2 {
-            font-family: 'Playfair Display', serif;
-            text-align: center;
-            font-size: 3.5rem;
-            margin-bottom: 60px;
-            color: var(--primary-color);
-            position: relative;
-        }
+    .address-info h3 { font-size: 16px; font-weight: 700; }
+    .address-info p { font-size: 14px; color: var(--ios-gray); }
 
-        .section h2::after {
-            content: '';
-            display: block;
-            width: 80px;
-            height: 4px;
-            background: var(--secondary-color);
-            margin: 15px auto 0;
-        }
+    /* Сетка Услуг */
+    .section-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin: 0 0 12px 6px;
+    }
 
-        /* Товары без картинок */
-        .product-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            text-align: center;
-        }
+    .services-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
 
-        .product-item {
-            background-color: var(--card-bg);
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: var(--shadow);
-            transition: transform 0.3s ease;
-        }
+    .service-card {
+      background: white;
+      padding: 20px;
+      border-radius: 24px;
+      border: 1px solid rgba(0,0,0,0.03);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 140px;
+    }
 
-        .product-item:hover {
-            transform: translateY(-5px);
-        }
+    .service-card span { font-size: 32px; margin-bottom: 8px; }
+    .service-name { font-weight: 700; font-size: 15px; line-height: 1.2; }
+    .service-price { font-weight: 800; font-size: 18px; color: var(--ios-green); margin-top: 4px; }
 
-        .product-item h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            color: var(--primary-color);
-            margin-bottom: 15px;
-        }
+    /* Список Контактов */
+    .ios-list {
+      background: white;
+      border-radius: 24px;
+      overflow: hidden;
+      margin-bottom: 24px;
+      border: 1px solid rgba(0,0,0,0.03);
+    }
 
-        .product-item p {
-            font-size: 1rem;
-            color: var(--text-color);
-        }
+    .list-item {
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: inherit;
+      border-bottom: 1px solid #f2f2f7;
+      transition: 0.2s;
+      cursor: pointer;
+      width: 100%;
+      background: none;
+      border-left: none; border-right: none; border-top: none;
+      text-align: left;
+    }
 
-        /* Наши услуги */
-        .services-content {
-            background: var(--card-bg);
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: var(--shadow);
-        }
+    .list-item:active { background: #f2f2f7; }
+    .list-item:last-child { border-bottom: none; }
 
-        .services-content p {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            margin-bottom: 20px;
-        }
+    .item-icon {
+      width: 34px; height: 34px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: white;
+    }
 
-        .services-content ul {
-            list-style: none;
-            padding-left: 20px;
-        }
+    /* Галерея */
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
+      border-radius: 12px;
+      overflow: hidden;
+    }
 
-        .services-content li {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            margin-bottom: 10px;
-            position: relative;
-        }
+    .photo-grid img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+    }
 
-        .services-content li::before {
-            content: "✓";
-            color: var(--secondary-color);
-            position: absolute;
-            left: -20px;
-        }
-        
-        /* О нас */
-        .about-content {
-            background: var(--card-bg);
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: var(--shadow);
-        }
-        
-        .about-content p {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        /* Заказать */
-        .order-content {
-            text-align: center;
-            background: var(--card-bg);
-            padding: 60px 40px;
-            border-radius: 15px;
-            box-shadow: var(--shadow);
-        }
-        
-        .order-content p {
-            font-size: 1.4rem;
-            margin-bottom: 40px;
-            font-weight: 300;
-        }
-        
-        .contact-links {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-        
-        .contact-links a {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            color: var(--light-bg);
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            padding: 15px 30px;
-            border-radius: 30px;
-            font-weight: 700;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
-        
-        .contact-links a:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.3);
-        }
-
-        /* Футер */
-        .footer {
-            text-align: center;
-            padding: 40px 0;
-            background: var(--primary-color);
-            color: white;
-            margin-top: 60px;
-        }
-
-        /* Медиа-запросы */
-        @media (max-width: 768px) {
-            .header .logo {
-                font-size: 2rem;
-            }
-            .hero h1 {
-                font-size: 3rem;
-            }
-            .hero p {
-                font-size: 1.3rem;
-            }
-            .section h2 {
-                font-size: 2.5rem;
-            }
-            nav a {
-                margin: 0 10px;
-            }
-        }
-    </style>
+    .blur { filter: blur(5px); transition: filter 0.4s; }
+    .unblur { filter: blur(0); }
+  </style>
 </head>
 <body>
 
-    <header class="header">
-        <div class="container fade-in">
-            <div class="logo">
-                ARTS & CRAFTING
-            </div>
-        </div>
+  <div class="bg-gradient"></div>
+
+  <div class="status-bar">
+    <div class="island">
+      <div class="dot" id="status-dot"></div>
+      <span id="status-text">Определяем статус...</span>
+    </div>
+  </div>
+
+  <div class="container">
+    <header>
+      <h1 class="logo-animate">АРТС&КРАФТИНГ</h1>
+      <p>Ремонт одежды — честно и в срок</p>
     </header>
 
-    <nav>
-        <div class="container">
-            <ul>
-                <li><a href="#home">Главная</a></li>
-                <li><a href="#about">О нас</a></li>
-                <li><a href="#services">Наши услуги</a></li>
-                <li><a href="#order">Заказать</a></li>
-            </ul>
+    <div class="address-widget" onclick="window.location.href='https://yandex.ru/maps/?text=Тамбов+Мичуринская+141'">
+      <div class="icon-map">📍</div>
+      <div class="address-info">
+        <h3>г. Тамбов, ул. Мичуринская 141</h3>
+        <p>Транзит, 2 ряд</p>
+      </div>
+    </div>
+
+    <h2 class="section-title">Что мы делаем</h2>
+    <div class="services-grid">
+      <div class="service-card">
+        <span>⚙️</span>
+        <div>
+          <div class="service-name">Замена бегунка</div>
+          <div class="service-price">от 150₽</div>
         </div>
-    </nav>
-
-    <main>
-        <section id="home" class="hero fade-in">
-            <div class="hero-content">
-                <h1>Искусство и ремесло</h1>
-                <p>Ваш источник вдохновения и материалов для творчества</p>
-            </div>
-        </section>
-
-        <section class="section">
-            <div class="container">
-                <h2 class="fade-in">Наши товары</h2>
-                <div class="product-list fade-in">
-                    <div class="product-item">
-                        <h3>Нитки</h3>
-                        <p>Широкий выбор ниток для шитья и вышивания.</p>
-                    </div>
-                    <div class="product-item">
-                        <h3>Замки</h3>
-                        <p>Надёжные и красивые замки для любых изделий.</p>
-                    </div>
-                    <div class="product-item">
-                        <h3>Ленты</h3>
-                        <p>Декоративные ленты разных цветов и фактур.</p>
-                    </div>
-                    <div class="product-item">
-                        <h3>Фурнитура</h3>
-                        <p>Бусины, пуговицы, тесьма и другие аксессуары.</p>
-                    </div>
-                    <div class="product-item">
-                        <h3>Материалы</h3>
-                        <p>Всё для вашего творчества: от ткани до клея.</p>
-                    </div>
-                    <div class="product-item">
-                        <h3>Аксессуары</h3>
-                        <p>Инструменты, иглы и другие полезные мелочи.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="services" class="section">
-            <div class="container">
-                <h2 class="fade-in">Наши услуги</h2>
-                <div class="services-content fade-in">
-                    <p>
-                        Мы не только продаём материалы, но и сами создаём красивые изделия. В нашем магазине вы можете заказать:
-                    </p>
-                    <ul>
-                        <li>Изделия из ткани</li>
-                        <li>Ремонт одежды любой сложности</li>
-                        <li>Замена бегунков</li>
-                        <li>Замена и установка кнопок</li>
-                    </ul>
-                    <p>
-                        Наши мастера помогут вам воплотить в жизнь любую идею, от простого ремонта до создания уникального наряда.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <section id="about" class="section">
-            <div class="container">
-                <h2 class="fade-in">О нас</h2>
-                <div class="about-content fade-in">
-                    <p>
-                        В нашем магазине **ARTS & CRAFTING** мы верим, что творчество — это не просто хобби, а способ выразить себя. Мы тщательно отбираем каждый товар, чтобы вы могли воплотить в жизнь любую свою идею. Наша миссия — вдохновлять и предоставлять качественные материалы для вашего искусства и ремесла.
-                    </p>
-                    <p>
-                        Мы всегда рады помочь с выбором и подсказать лучшие решения для ваших проектов. Приходите к нам, и дава��те творить вместе!
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <section id="order" class="section">
-            <div class="container">
-                <h2 class="fade-in">Как заказать?</h2>
-                <div class="order-content fade-in">
-                    <p>
-                        Чтобы оформить заказ или получить консультацию, свяжитесь с нами любым удобным способом:
-                    </p>
-                    <div class="contact-links">
-                        <a href="https://wa.me/79027246061" target="_blank">WhatsApp</a>
-                        <a href="https://t.me/+hgKUpUSFUZcxOGYy" target="_blank">Telegram</a>
-                        <a href="https://vk.com/club212188563" target="_blank">ВКонтакте</a>
-                        <a href="https://ok.ru/group/68969275129907" target="_blank">Одноклассники</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2025 ARTS & CRAFTING. Все права защищены.</p>
+      </div>
+      <div class="service-card">
+        <span>🪡</span>
+        <div>
+          <div class="service-name">Замена молнии</div>
+          <div class="service-price">от 450₽</div>
         </div>
+      </div>
+      <div class="service-card">
+        <span>🧥</span>
+        <div>
+          <div class="service-name">Ремонт кожи и меха</div>
+          <div class="service-price">от 500₽</div>
+        </div>
+      </div>
+      <div class="service-card">
+        <span>📐</span>
+        <div>
+          <div class="service-name">Подшив брюк/джинс</div>
+          <div class="service-price">от 400₽</div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="section-title">Связь с мастером</h2>
+    <div class="ios-list">
+      <!-- Кнопка телефона с двойным действием -->
+      <button class="list-item" onclick="handlePhoneClick(this)">
+        <div class="item-icon" style="background: var(--ios-green);">📞</div>
+        <div style="flex: 1;">
+          <div style="font-weight: 600;">Телефон</div>
+          <div id="phone-display" class="blur" style="color: var(--ios-gray); font-size: 14px;">8-902-724-60-61</div>
+        </div>
+      </button>
+
+      <a href="https://t.me/ARTSANDCRAFTING" target="_blank" class="list-item">
+        <div class="item-icon" style="background: #0088cc;">✈️</div>
+        <div style="flex: 1;">
+          <div style="font-weight: 600;">Telegram канал</div>
+          <div style="color: var(--ios-gray); font-size: 14px;">Наши новости</div>
+        </div>
+      </a>
+      <a href="https://max.ru/join/6vA9eQ-0nmP55CTnB5MfnYQ4zmW253WY_fukBZuK5lU" target="_blank" class="list-item">
+        <div class="item-icon" style="background: #5856d6;">🔗</div>
+        <div style="flex: 1;">
+          <div style="font-weight: 600;">MAX канал</div>
+          <div style="color: var(--ios-gray); font-size: 14px;">Присоединиться</div>
+        </div>
+      </a>
+    </div>
+
+    <h2 class="section-title">Примеры работ</h2>
+    <div class="photo-grid">
+      <img src="https://i.postimg.cc/0zRYN9T3/image.jpg" alt="Ремонт 1">
+      <img src="https://i.postimg.cc/jw5N12fd/image.jpg" alt="Ремонт 2">
+      <img src="https://i.postimg.cc/300GKqn3/image.jpg" alt="Ремонт 3">
+      <img src="https://i.postimg.cc/Rq2fPMZn/image.jpg" alt="Ремонт 4">
+      <img src="https://i.postimg.cc/Lq4Zq5NW/image.jpg" alt="Ремонт 5">
+      <img src="https://i.postimg.cc/VrdrRTyD/image.jpg" alt="Ремонт 6">
+      <img src="https://i.postimg.cc/6T444DLS/image.jpg" alt="Ремонт 7">
+      <img src="https://i.postimg.cc/zy8yM3Z5/image.jpg" alt="Ремонт 8">
+      <img src="https://i.postimg.cc/tZKTz4t8/image.jpg" alt="Ремонт 9">
+    </div>
+
+    <footer style="margin-top: 40px; text-align: center; color: var(--ios-gray); font-size: 13px; padding-bottom: 20px;">
+      АРТС&КРАФТИНГ • Тамбов • Мичуринская 141
     </footer>
+  </div>
 
+  <script>
+    let phoneRevealed = false;
+    const PHONE_NUMBER = "89027246061";
+
+    function handlePhoneClick(btn) {
+      const display = document.getElementById('phone-display');
+      if (!phoneRevealed) {
+        // Первый клик: показываем номер
+        display.classList.remove('blur');
+        display.classList.add('unblur');
+        phoneRevealed = true;
+      } else {
+        // Второй клик: совершаем звонок
+        window.location.href = `tel:${PHONE_NUMBER}`;
+      }
+    }
+
+    function updateStatus() {
+      const now = new Date();
+      const msk = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (3 * 3600000));
+      const day = msk.getDay();
+      const hour = msk.getHours();
+      const min = msk.getMinutes();
+      const time = hour + min/60;
+
+      let open = false;
+      let text = "Мастерская закрыта";
+
+      if (day >= 1 && day <= 5) {
+        if (time >= 9 && time < 18) open = true;
+      } else if (day === 6) {
+        if (time >= 10 && time < 17) open = true;
+      }
+
+      const dot = document.getElementById('status-dot');
+      const label = document.getElementById('status-text');
+
+      if (open) {
+        dot.classList.add('active');
+        label.innerText = "Мастерская работает";
+      } else {
+        dot.classList.remove('active');
+        label.innerText = (day === 0) ? "Сегодня выходной" : "Ждем вас с 9:00";
+      }
+    }
+
+    // Анимация при скролле
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = "1";
+          entry.target.style.transform = "translateY(0)";
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.address-widget, .service-card, .ios-list, .photo-grid, .section-title').forEach(el => {
+      el.style.opacity = "0";
+      el.style.transform = "translateY(20px)";
+      el.style.transition = "all 0.6s ease-out";
+      observer.observe(el);
+    });
+
+    updateStatus();
+    setInterval(updateStatus, 30000);
+  </script>
 </body>
 </html>
