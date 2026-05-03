@@ -1,16 +1,17 @@
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>АРТС&КРАФТИНГ | Ремонт одежды в Тамбове</title>
+  <title>АРТС&КРАФТИНГ | Ремонт одежды</title>
   <style>
     :root {
-      --bg-light: #f9fafb;
+      --bg-light: #f4f6f8;
       --ios-green: #34c759;
       --ios-gray: #8e8e93;
       --ios-blue: #007aff;
-      --card-bg: rgba(255, 255, 255, 0.85);
+      --card-bg: rgba(255, 255, 255, 0.75);
       --spring: cubic-bezier(0.4, 0, 0.2, 1.4);
     }
 
@@ -29,11 +30,21 @@
       overflow-x: hidden;
     }
 
+    /* Базовый светлый фон */
     .bg-gradient {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
+      z-index: -2;
+      background: linear-gradient(180deg, #ffffff 0%, #eef8f1 100%);
+    }
+
+    /* Георгиевские ленты на заднем фоне */
+    .ribbons-bg {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
       z-index: -1;
-      background: linear-gradient(180deg, #ffffff 0%, #f0fdf4 100%);
+      opacity: 0.9;
+      pointer-events: none;
     }
 
     /* Остров статуса */
@@ -47,7 +58,9 @@
     }
 
     .island {
-      background: #1c1c1e;
+      background: rgba(28, 28, 30, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       color: white;
       padding: 10px 20px;
       border-radius: 30px;
@@ -56,7 +69,7 @@
       gap: 10px;
       font-size: 14px;
       font-weight: 600;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
     }
 
     .dot {
@@ -80,7 +93,7 @@
     .container {
       max-width: 500px;
       margin: 0 auto;
-      padding: 20px 16px 80px;
+      padding: 20px 16px 60px;
     }
 
     header {
@@ -88,7 +101,7 @@
       margin: 30px 0;
     }
 
-    /* Анимация перелива логотипа */
+    /* Анимация перелива логотипа 1 раз */
     .logo-animate {
       font-size: 38px;
       font-weight: 800;
@@ -111,18 +124,50 @@
       margin-top: 5px;
     }
 
+    /* Виджет к 9 Мая */
+    .victory-widget {
+      background: var(--card-bg);
+      backdrop-filter: blur(25px) saturate(180%);
+      -webkit-backdrop-filter: blur(25px) saturate(180%);
+      border-radius: 24px;
+      margin-bottom: 24px;
+      border: 1px solid rgba(255,255,255,0.6);
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding: 16px 20px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.04);
+    }
+
+    .ribbon-stripe {
+      position: absolute;
+      left: 0; top: 0; bottom: 0; width: 14px;
+      background: repeating-linear-gradient(
+        -45deg,
+        #ff6a00, #ff6a00 10px,
+        #111111 10px, #111111 20px
+      );
+    }
+
+    .victory-text { margin-left: 14px; }
+    .victory-text h3 { font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+    .victory-text p { font-size: 13px; color: #555; margin-top: 2px; }
+
     /* Адрес */
     .address-widget {
       background: var(--card-bg);
-      backdrop-filter: blur(20px);
+      backdrop-filter: blur(25px) saturate(180%);
+      -webkit-backdrop-filter: blur(25px) saturate(180%);
       border-radius: 24px;
       padding: 20px;
       margin-bottom: 24px;
-      border: 1px solid rgba(0,0,0,0.05);
+      border: 1px solid rgba(255,255,255,0.6);
       display: flex;
       align-items: center;
       gap: 15px;
       cursor: pointer;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.04);
     }
 
     .icon-map {
@@ -154,14 +199,17 @@
     }
 
     .service-card {
-      background: white;
+      background: var(--card-bg);
+      backdrop-filter: blur(25px) saturate(180%);
+      -webkit-backdrop-filter: blur(25px) saturate(180%);
       padding: 20px;
       border-radius: 24px;
-      border: 1px solid rgba(0,0,0,0.03);
+      border: 1px solid rgba(255,255,255,0.6);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       min-height: 140px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.04);
     }
 
     .service-card span { font-size: 32px; margin-bottom: 8px; }
@@ -170,11 +218,14 @@
 
     /* Список Контактов */
     .ios-list {
-      background: white;
+      background: var(--card-bg);
+      backdrop-filter: blur(25px) saturate(180%);
+      -webkit-backdrop-filter: blur(25px) saturate(180%);
       border-radius: 24px;
       overflow: hidden;
       margin-bottom: 24px;
-      border: 1px solid rgba(0,0,0,0.03);
+      border: 1px solid rgba(255,255,255,0.6);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.04);
     }
 
     .list-item {
@@ -184,7 +235,7 @@
       gap: 12px;
       text-decoration: none;
       color: inherit;
-      border-bottom: 1px solid #f2f2f7;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
       transition: 0.2s;
       cursor: pointer;
       width: 100%;
@@ -193,7 +244,7 @@
       text-align: left;
     }
 
-    .list-item:active { background: #f2f2f7; }
+    .list-item:active { background: rgba(0,0,0,0.05); }
     .list-item:last-child { border-bottom: none; }
 
     .item-icon {
@@ -227,8 +278,32 @@
 </head>
 <body>
 
+  <!-- Фон -->
   <div class="bg-gradient"></div>
 
+  <!-- Георгиевские ленты (SVG вектор) -->
+  <div class="ribbons-bg">
+    <svg width="100%" height="100%" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <g stroke-linecap="square" opacity="0.6">
+        <!-- Лента 1 (Сверху) -->
+        <path d="M-100,150 C300,50 600,300 1200,100" stroke="#1c1c1e" stroke-width="40" fill="none" />
+        <path d="M-100,150 C300,50 600,300 1200,100" stroke="#ff7b00" stroke-width="24" fill="none" />
+        <path d="M-100,150 C300,50 600,300 1200,100" stroke="#1c1c1e" stroke-width="8" fill="none" />
+
+        <!-- Лента 2 (По центру) -->
+        <path d="M-100,600 C400,800 600,300 1200,500" stroke="#1c1c1e" stroke-width="50" fill="none" />
+        <path d="M-100,600 C400,800 600,300 1200,500" stroke="#ff7b00" stroke-width="30" fill="none" />
+        <path d="M-100,600 C400,800 600,300 1200,500" stroke="#1c1c1e" stroke-width="10" fill="none" />
+
+        <!-- Лента 3 (Снизу) -->
+        <path d="M-200,950 C300,800 800,1100 1200,850" stroke="#1c1c1e" stroke-width="60" fill="none" />
+        <path d="M-200,950 C300,800 800,1100 1200,850" stroke="#ff7b00" stroke-width="36" fill="none" />
+        <path d="M-200,950 C300,800 800,1100 1200,850" stroke="#1c1c1e" stroke-width="12" fill="none" />
+      </g>
+    </svg>
+  </div>
+
+  <!-- Остров статуса -->
   <div class="status-bar">
     <div class="island">
       <div class="dot" id="status-dot"></div>
@@ -242,6 +317,16 @@
       <p>Ремонт одежды — честно и в срок</p>
     </header>
 
+    <!-- Поздравительный виджет к 9 Мая -->
+    <div class="victory-widget">
+      <div class="ribbon-stripe"></div>
+      <div class="victory-text">
+        <h3>С наступающим 9 Мая! 🎖️</h3>
+        <p>С Днем Великой Победы. Мирного неба над головой!</p>
+      </div>
+    </div>
+
+    <!-- Адрес -->
     <div class="address-widget" onclick="window.location.href='https://yandex.ru/maps/?text=Тамбов+Мичуринская+141'">
       <div class="icon-map">📍</div>
       <div class="address-info">
@@ -250,6 +335,7 @@
       </div>
     </div>
 
+    <!-- Услуги -->
     <h2 class="section-title">Что мы делаем</h2>
     <div class="services-grid">
       <div class="service-card">
@@ -282,10 +368,11 @@
       </div>
     </div>
 
+    <!-- Контакты -->
     <h2 class="section-title">Связь с мастером</h2>
     <div class="ios-list">
-      <!-- Кнопка телефона с двойным действием -->
-      <button class="list-item" onclick="handlePhoneClick(this)">
+      <!-- Умная кнопка телефона -->
+      <button class="list-item" onclick="handlePhoneClick()">
         <div class="item-icon" style="background: var(--ios-green);">📞</div>
         <div style="flex: 1;">
           <div style="font-weight: 600;">Телефон</div>
@@ -309,6 +396,7 @@
       </a>
     </div>
 
+    <!-- Фотографии -->
     <h2 class="section-title">Примеры работ</h2>
     <div class="photo-grid">
       <img src="https://i.postimg.cc/0zRYN9T3/image.jpg" alt="Ремонт 1">
@@ -322,28 +410,30 @@
       <img src="https://i.postimg.cc/tZKTz4t8/image.jpg" alt="Ремонт 9">
     </div>
 
-    <footer style="margin-top: 40px; text-align: center; color: var(--ios-gray); font-size: 13px; padding-bottom: 20px;">
+    <footer style="margin-top: 40px; text-align: center; color: var(--ios-gray); font-size: 13px;">
       АРТС&КРАФТИНГ • Тамбов • Мичуринская 141
     </footer>
   </div>
 
   <script>
+    // Логика умной кнопки телефона (первый клик - показать, второй - звонить)
     let phoneRevealed = false;
     const PHONE_NUMBER = "89027246061";
 
-    function handlePhoneClick(btn) {
+    function handlePhoneClick() {
       const display = document.getElementById('phone-display');
       if (!phoneRevealed) {
-        // Первый клик: показываем номер
         display.classList.remove('blur');
         display.classList.add('unblur');
+        display.style.color = "var(--ios-green)";
+        display.style.fontWeight = "bold";
         phoneRevealed = true;
       } else {
-        // Второй клик: совершаем звонок
         window.location.href = `tel:${PHONE_NUMBER}`;
       }
     }
 
+    // Логика статуса работы по МСК
     function updateStatus() {
       const now = new Date();
       const msk = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (3 * 3600000));
@@ -353,7 +443,6 @@
       const time = hour + min/60;
 
       let open = false;
-      let text = "Мастерская закрыта";
 
       if (day >= 1 && day <= 5) {
         if (time >= 9 && time < 18) open = true;
@@ -373,7 +462,7 @@
       }
     }
 
-    // Анимация при скролле
+    // Плавное появление элементов при скролле
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -383,7 +472,7 @@
       });
     }, { threshold: 0.1 });
 
-    document.querySelectorAll('.address-widget, .service-card, .ios-list, .photo-grid, .section-title').forEach(el => {
+    document.querySelectorAll('.victory-widget, .address-widget, .service-card, .ios-list, .photo-grid, .section-title').forEach(el => {
       el.style.opacity = "0";
       el.style.transform = "translateY(20px)";
       el.style.transition = "all 0.6s ease-out";
@@ -395,3 +484,6 @@
   </script>
 </body>
 </html>
+
+
+```
