@@ -3,19 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>АРТС&КРАФТИНГ | Ремонт одежды и товары</title>
+  <title>АРТС&КРАФТИНГ | Ремонт одежды</title>
   <style>
+    /* Переменные Светлой темы */
     :root {
-      --bg-light: #f4f6f8;
       --ios-green: #34c759;
-      --ios-gray: #8e8e93;
       --ios-blue: #007aff;
-      /* Чистое стекло премиум класса */
-      --pure-glass: rgba(255, 255, 255, 0.55);
-      --glass-border: rgba(255, 255, 255, 0.8);
-      --glass-shadow: 0 16px 40px rgba(0, 0, 0, 0.05);
-      --glass-highlight: inset 0 1px 1px rgba(255, 255, 255, 0.9);
       --spring: cubic-bezier(0.4, 0, 0.2, 1.4);
+      
+      --mesh-1: #e0f2fe;
+      --mesh-2: #dcfce7;
+      --mesh-3: #f3e8ff;
+      --mesh-4: #ffedd5;
+      
+      --glass-bg: rgba(255, 255, 255, 0.6);
+      --glass-border: rgba(255, 255, 255, 0.8);
+      --glass-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      
+      --text-main: #1c1c1e;
+      --text-muted: #8e8e93;
+      --divider: rgba(0, 0, 0, 0.05);
+      --card-hover: rgba(0, 0, 0, 0.03);
+    }
+
+    /* Переменные Тёмной темы */
+    body.dark-theme {
+      --mesh-1: #0f172a;
+      --mesh-2: #064e3b;
+      --mesh-3: #3b0764;
+      --mesh-4: #451a03;
+      
+      --glass-bg: rgba(30, 30, 30, 0.6);
+      --glass-border: rgba(255, 255, 255, 0.1);
+      --glass-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      
+      --text-main: #ffffff;
+      --text-muted: #a1a1a6;
+      --divider: rgba(255, 255, 255, 0.08);
+      --card-hover: rgba(255, 255, 255, 0.05);
     }
 
     * {
@@ -26,39 +51,48 @@
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
     }
 
-    html {
-      scroll-behavior: smooth; /* Плавная прокрутка */
-    }
+    html { scroll-behavior: smooth; }
 
     body {
-      background-color: var(--bg-light);
-      color: #1c1c1e;
+      background-color: var(--mesh-1);
+      color: var(--text-main);
       line-height: 1.4;
       overflow-x: hidden;
+      transition: background-color 0.5s ease, color 0.5s ease;
     }
 
-    /* Фон */
-    .bg-gradient {
+    /* Живой градиентный фон (Mesh Gradient) */
+    .mesh-background {
       position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
+      inset: 0;
       z-index: -3;
-      background: radial-gradient(circle at 20% 30%, #e8f5e9 0%, transparent 50%),
-                  radial-gradient(circle at 80% 80%, #e3f2fd 0%, transparent 50%);
+      background: radial-gradient(circle at 15% 50%, var(--mesh-1), transparent 50%),
+                  radial-gradient(circle at 85% 30%, var(--mesh-2), transparent 50%),
+                  radial-gradient(circle at 90% 90%, var(--mesh-3), transparent 50%),
+                  radial-gradient(circle at 10% 90%, var(--mesh-4), transparent 50%);
+      filter: blur(60px);
+      animation: breathe 15s ease-in-out infinite alternate;
+      transition: all 0.5s ease;
     }
 
-    /* Праздничные фоны (Ленты и Частицы) */
+    @keyframes breathe {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.1) rotate(5deg); }
+    }
+
+    /* Частицы и ленты */
     .ribbons-bg {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
       z-index: -2;
-      opacity: 0.8;
+      opacity: 0.6;
       pointer-events: none;
       display: none;
     }
 
     #particles-container {
       position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
+      inset: 0;
       z-index: -2;
       pointer-events: none;
       overflow: hidden;
@@ -67,10 +101,7 @@
     .particle {
       position: absolute;
       top: -50px;
-      animation-name: fall, sway;
-      animation-timing-function: linear, ease-in-out;
-      animation-iteration-count: infinite, infinite;
-      animation-direction: normal, alternate;
+      animation: fall linear infinite, sway ease-in-out infinite alternate;
       user-select: none;
     }
 
@@ -80,13 +111,12 @@
       80% { opacity: 1; }
       100% { top: 110%; opacity: 0; }
     }
-
     @keyframes sway {
-      0% { transform: translateX(0px) rotate(0deg); }
+      0% { transform: translateX(0) rotate(0deg); }
       100% { transform: translateX(25px) rotate(45deg); }
     }
 
-    /* Верхняя панель (Остров и Языки) */
+    /* Верхняя панель (Остров и Язык) */
     .top-bar {
       position: sticky;
       top: 12px;
@@ -97,36 +127,52 @@
       height: 44px;
     }
 
-    .lang-switcher {
-      position: absolute;
-      right: 16px;
-      top: 0;
+    .island {
+      background: rgba(20, 20, 22, 0.85);
+      backdrop-filter: blur(20px);
+      color: white;
+      padding: 10px 22px;
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
     }
 
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: #555; }
+    .dot.active { background: var(--ios-green); box-shadow: 0 0 10px var(--ios-green); animation: pulse 2s infinite; }
+    .dot.holiday { background: #ff3b30; box-shadow: 0 0 10px #ff3b30; }
+
+    @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.2); } }
+
+    /* Меню языков и темы */
+    .lang-switcher { position: absolute; right: 16px; top: 0; }
+    
     .lang-btn {
-      background: var(--pure-glass);
-      backdrop-filter: blur(25px);
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
       border: 1px solid var(--glass-border);
-      box-shadow: var(--glass-highlight), 0 4px 15px rgba(0,0,0,0.05);
+      box-shadow: var(--glass-shadow);
       padding: 8px 12px;
       border-radius: 20px;
       font-weight: 700;
       font-size: 14px;
-      color: #1c1c1e;
+      color: var(--text-main);
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 6px;
       transition: 0.2s;
     }
-
     .lang-btn:active { transform: scale(0.95); }
 
     .lang-menu {
       position: absolute;
       top: calc(100% + 8px);
       right: 0;
-      background: rgba(255, 255, 255, 0.85);
+      background: var(--glass-bg);
       backdrop-filter: blur(30px);
       border: 1px solid var(--glass-border);
       border-radius: 16px;
@@ -138,14 +184,9 @@
       pointer-events: none;
       transform: translateY(-10px);
       transition: all 0.3s var(--spring);
-      min-width: 140px;
+      min-width: 160px;
     }
-
-    .lang-menu.open {
-      opacity: 1;
-      pointer-events: auto;
-      transform: translateY(0);
-    }
+    .lang-menu.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
 
     .lang-option {
       padding: 12px 16px;
@@ -155,43 +196,19 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      border-bottom: 1px solid rgba(0,0,0,0.05);
+      border-bottom: 1px solid var(--divider);
+      color: var(--text-main);
+      transition: background 0.2s;
     }
-
     .lang-option:last-child { border-bottom: none; }
-    .lang-option:active { background: rgba(0,0,0,0.05); }
-
-    /* Остров статуса */
-    .island {
-      background: rgba(28, 28, 30, 0.9);
-      backdrop-filter: blur(20px);
-      color: white;
-      padding: 10px 22px;
-      border-radius: 30px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 14px;
-      font-weight: 600;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-      transition: all 0.3s ease;
-      border: 1px solid rgba(255,255,255,0.1);
+    .lang-option:active { background: var(--card-hover); }
+    
+    .menu-divider {
+      height: 4px;
+      background: var(--divider);
     }
 
-    .dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: #555;
-    }
-
-    .dot.active { background: var(--ios-green); box-shadow: 0 0 10px var(--ios-green); animation: pulse 2s infinite; }
-    .dot.holiday { background: #ff3b30; box-shadow: 0 0 10px #ff3b30; }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(1.2); }
-    }
-
+    /* Контейнер */
     .container {
       max-width: 500px;
       margin: 0 auto;
@@ -202,25 +219,15 @@
       text-align: center;
       margin: 30px 0;
       min-height: 80px;
-      position: relative;
     }
 
-    /* Анимация перелива логотипа */
     .logo-animate {
       font-size: 38px;
       font-weight: 800;
       letter-spacing: -1px;
-      color: #1c1c1e;
-      animation: colorShift 2.5s ease-in-out forwards;
+      color: var(--text-main);
       cursor: pointer;
       display: inline-block;
-    }
-
-    @keyframes colorShift {
-      0% { color: #1c1c1e; }
-      40% { color: var(--ios-green); }
-      70% { color: var(--ios-green); }
-      100% { color: #1c1c1e; }
     }
 
     /* Эффект песка */
@@ -229,7 +236,6 @@
       transition: transform 1.2s cubic-bezier(0.36, 0, 0.66, -0.56), opacity 1s ease, filter 1s ease;
       transform-origin: bottom center;
     }
-
     .sand-letter.crumble {
       transform: translateY(80px) rotate(var(--rot)) scale(0.6);
       opacity: 0;
@@ -239,35 +245,34 @@
     /* Таймер */
     #countdown-timer {
       display: none;
-      animation: fadeInTimer 1s ease forwards;
+      animation: fadeIn 1s ease forwards;
       cursor: pointer;
       padding: 15px;
       border-radius: 20px;
-      background: var(--pure-glass);
-      backdrop-filter: blur(30px);
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
       border: 1px solid var(--glass-border);
-      box-shadow: var(--glass-highlight), var(--glass-shadow);
+      box-shadow: var(--glass-shadow);
       transition: 0.3s;
     }
-    
     #countdown-timer:active { transform: scale(0.98); }
 
     /* Мини-меню */
     #store-info-menu {
       display: none;
-      animation: fadeInTimer 0.5s ease forwards;
-      background: var(--pure-glass);
-      backdrop-filter: blur(30px);
+      animation: fadeIn 0.5s ease forwards;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
       padding: 20px;
       border-radius: 24px;
       border: 1px solid var(--glass-border);
-      box-shadow: var(--glass-highlight), var(--glass-shadow);
+      box-shadow: var(--glass-shadow);
       text-align: left;
       margin-top: -10px;
     }
-
     #store-info-menu h3 { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
-    #store-info-menu p { font-size: 14px; color: #333; margin-bottom: 8px; line-height: 1.5; }
+    #store-info-menu p { font-size: 14px; color: var(--text-muted); margin-bottom: 8px; line-height: 1.5; }
+    #store-info-menu strong { color: var(--text-main); }
     
     .btn-return {
       width: 100%;
@@ -280,34 +285,26 @@
       font-weight: 700;
       cursor: pointer;
       margin-top: 10px;
-      transition: transform 0.2s;
     }
-    .btn-return:active { transform: scale(0.96); }
 
-    @keyframes fadeInTimer {
+    @keyframes fadeIn {
       from { opacity: 0; transform: translateY(-10px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    #header-subtitle {
-      color: var(--ios-gray);
-      font-weight: 500;
-      font-size: 17px;
-      margin-top: 5px;
-    }
+    #header-subtitle { color: var(--text-muted); font-weight: 500; font-size: 17px; margin-top: 5px; }
 
-    /* Общий стиль карточек */
+    /* Общий стиль карточек (Стекло) */
     .widget-card {
-      background: var(--pure-glass);
-      backdrop-filter: blur(30px) saturate(150%);
-      border-radius: 28px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(25px) saturate(180%);
+      border-radius: 24px;
       margin-bottom: 20px;
       border: 1px solid var(--glass-border);
-      box-shadow: var(--glass-highlight), var(--glass-shadow);
+      box-shadow: var(--glass-shadow);
       overflow: hidden;
       transition: transform 0.3s var(--spring);
     }
-
     .widget-card:active { transform: scale(0.98); }
 
     /* Праздничный виджет */
@@ -318,12 +315,10 @@
       padding: 18px 22px;
       gap: 15px;
     }
-
-    .holiday-icon { font-size: 36px; flex-shrink: 0; z-index: 1; }
+    .holiday-icon { font-size: 36px; z-index: 1; }
     .holiday-text { z-index: 1; }
     .holiday-text h3 { font-size: 17px; font-weight: 700; }
-    .holiday-text p { font-size: 14px; color: #555; margin-top: 2px; }
-
+    .holiday-text p { font-size: 14px; color: var(--text-muted); margin-top: 2px; }
     .ribbon-stripe {
       display: none;
       position: absolute;
@@ -338,117 +333,88 @@
       gap: 15px;
       padding: 20px 22px;
       cursor: pointer;
+      text-decoration: none;
+      color: inherit;
     }
-
     .icon-map {
       width: 48px; height: 48px;
       background: var(--ios-blue);
       border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      color: white;
-      flex-shrink: 0;
-      box-shadow: 0 4px 15px rgba(0, 122, 255, 0.3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px; color: white; flex-shrink: 0;
     }
 
-    .address-info h3 { font-size: 16px; font-weight: 700; }
-    .address-info p { font-size: 14px; color: var(--ios-gray); }
-
-    /* Отступы для якорей скролла */
+    /* Отступы для скролла */
     .section-anchor { scroll-margin-top: 70px; }
+    .section-title { font-size: 20px; font-weight: 700; margin: 15px 0 15px 6px; }
 
-    .section-title {
-      font-size: 20px;
-      font-weight: 700;
-      margin: 15px 0 15px 6px;
-    }
-
-    /* Сетка Услуг */
+    /* Услуги */
     .services-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 14px;
+      gap: 12px;
       margin-bottom: 24px;
     }
-
     .service-card {
-      background: var(--pure-glass);
-      backdrop-filter: blur(30px);
-      padding: 22px;
-      border-radius: 28px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(25px);
+      padding: 20px;
+      border-radius: 24px;
       border: 1px solid var(--glass-border);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      display: flex; flex-direction: column; justify-content: space-between;
       min-height: 140px;
-      box-shadow: var(--glass-highlight), var(--glass-shadow);
+      box-shadow: var(--glass-shadow);
       transition: transform 0.3s var(--spring);
     }
-
-    .service-card:active { transform: scale(0.96); }
-
+    .service-card:active { transform: scale(0.95); }
     .service-card span { font-size: 32px; margin-bottom: 8px; display: inline-block; }
     .service-name { font-weight: 700; font-size: 14px; line-height: 1.2; }
     .service-price { font-weight: 800; font-size: 18px; color: var(--ios-green); margin-top: 4px; }
 
     /* Контакты */
     .ios-list {
-      background: var(--pure-glass);
-      backdrop-filter: blur(30px);
-      border-radius: 28px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(25px);
+      border-radius: 24px;
       margin-bottom: 24px;
       border: 1px solid var(--glass-border);
-      box-shadow: var(--glass-highlight), var(--glass-shadow);
+      box-shadow: var(--glass-shadow);
     }
-
     .list-item {
       padding: 16px 20px;
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      text-decoration: none;
-      color: inherit;
-      border-bottom: 1px solid rgba(0,0,0,0.05);
+      display: flex; align-items: center; gap: 15px;
+      text-decoration: none; color: inherit;
+      border-bottom: 1px solid var(--divider);
       cursor: pointer;
-      width: 100%;
-      background: none;
-      border-left: none; border-right: none; border-top: none;
+      width: 100%; background: none; border-left: none; border-right: none; border-top: none;
       text-align: left;
     }
-
-    .list-item:active { background: rgba(0,0,0,0.03); }
-    .list-item:last-child { border-bottom: none; }
-
+    .list-item:active { background: var(--card-hover); }
+    .list-item:first-child { border-radius: 24px 24px 0 0; }
+    .list-item:last-child { border-bottom: none; border-radius: 0 0 24px 24px; }
     .item-icon {
       width: 38px; height: 38px;
       border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-      color: white;
-      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; color: white; flex-shrink: 0;
     }
+    .item-content { flex: 1; }
+    .item-title { font-weight: 600; font-size: 15px; margin-bottom: 2px; }
+    .item-subtitle { font-size: 13px; color: var(--text-muted); }
 
     /* Галерея товаров */
     .photo-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 6px;
-      border-radius: 20px;
+      gap: 4px;
+      border-radius: 16px;
       overflow: hidden;
       box-shadow: var(--glass-shadow);
       border: 1px solid var(--glass-border);
     }
-
     .photo-grid img { width: 100%; aspect-ratio: 1; object-fit: cover; }
 
-    .blur { filter: blur(5px); transition: filter 0.4s; }
-    .unblur { filter: blur(0); }
-
-    /* --- ЧИСТОЕ СТЕКЛО: НИЖНЯЯ ПАНЕЛЬ НАВИГАЦИИ --- */
+    /* --- ЛОГИЧНОЕ НИЖНЕЕ МЕНЮ --- */
     .bottom-nav-wrapper {
       position: fixed;
       bottom: 25px;
@@ -461,47 +427,55 @@
 
     .bottom-glass-nav {
       pointer-events: auto;
-      background: rgba(255, 255, 255, 0.4);
-      backdrop-filter: blur(40px) saturate(200%);
-      -webkit-backdrop-filter: blur(40px) saturate(200%);
-      border: 1px solid rgba(255, 255, 255, 0.6);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1), inset 0 1px 1px rgba(255,255,255,0.9);
+      background: var(--glass-bg);
+      backdrop-filter: blur(30px) saturate(200%);
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.15);
       border-radius: 40px;
       display: flex;
-      padding: 8px 12px;
+      padding: 8px;
       gap: 12px;
+      transition: all 0.4s var(--spring);
     }
 
-    /* СТИЛЬНЫЕ SVG ИКОНКИ (ВМЕСТО ЭМОДЗИ) */
     .nav-btn {
       width: 50px; 
       height: 50px;
       border-radius: 25px; 
-      background: rgba(255, 255, 255, 0.5);
-      border: 1px solid rgba(255, 255, 255, 0.6);
+      background: rgba(120, 120, 128, 0.1);
+      border: 1px solid var(--divider);
       display: flex; 
       justify-content: center; 
       align-items: center;
-      color: #1c1c1e;
+      color: var(--text-main);
       text-decoration: none;
-      transition: all 0.3s var(--spring);
+      transition: all 0.4s var(--spring);
     }
 
-    .nav-btn svg {
-      width: 22px;
-      height: 22px;
-      stroke: currentColor;
+    .nav-btn svg { width: 22px; height: 22px; stroke: currentColor; transition: stroke 0.3s; }
+    
+    /* Логика активной кнопки (она больше не исчезает, а стильно выделяется) */
+    .nav-btn.active {
+      background: var(--text-main);
+      color: var(--glass-bg);
+      transform: scale(1.1);
+      border-color: transparent;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    .nav-btn.active svg {
+      stroke: var(--glass-bg);
     }
 
-    .nav-btn:hover { background: rgba(255, 255, 255, 0.8); transform: translateY(-3px); }
-    .nav-btn:active { transform: scale(0.9); background: rgba(255, 255, 255, 1); }
+    .nav-btn:hover:not(.active) { background: rgba(120, 120, 128, 0.2); transform: translateY(-3px); }
+    .nav-btn:active { transform: scale(0.95); }
 
   </style>
 </head>
 <body id="top">
 
-  <!-- Фоновые градиенты и частицы -->
-  <div class="bg-gradient"></div>
+  <!-- Живой фон и частицы -->
+  <div class="mesh-background"></div>
   <div id="particles-container"></div>
 
   <!-- Георгиевские ленты на фоне -->
@@ -524,21 +498,25 @@
       <span id="status-text" data-i18n="status_loading">Определяем статус...</span>
     </div>
 
-    <!-- Кнопка выбора языка -->
+    <!-- Кнопка выбора языка и темы -->
     <div class="lang-switcher">
       <button class="lang-btn" onclick="toggleLangMenu()">
         <span id="current-lang-icon">🇷🇺</span> <span id="current-lang-text">RU</span>
       </button>
       <div class="lang-menu" id="lang-menu">
-        <div class="lang-option" onclick="setLang('ru')">🇷🇺 Русский</div>
-        <div class="lang-option" onclick="setLang('en')">🇬🇧 English</div>
-        <div class="lang-option" onclick="setLang('kz')">🇰🇿 Қазақша</div>
+        <div class="lang-option" onclick="setLang('ru')"><span>🇷🇺</span> Русский</div>
+        <div class="lang-option" onclick="setLang('en')"><span>🇬🇧</span> English</div>
+        <div class="lang-option" onclick="setLang('kz')"><span>🇰🇿</span> Қазақша</div>
+        <div class="menu-divider"></div>
+        <div class="lang-option" onclick="toggleTheme()" id="theme-toggle-btn">
+          <span id="theme-icon">🌙</span> <span id="theme-text" data-i18n="theme_dark">Тёмная тема</span>
+        </div>
       </div>
     </div>
   </div>
 
   <div class="container">
-    <header>
+    <header id="header-section" class="section-anchor">
       <h1 class="logo-animate" id="main-title" onclick="handleTitleClick()">АРТС&КРАФТИНГ</h1>
       
       <div id="countdown-timer"></div>
@@ -563,13 +541,13 @@
       </div>
     </div>
 
-    <div class="widget-card address-widget" onclick="window.location.href='https://yandex.ru/maps/?text=Тамбов+Мичуринская+141'">
+    <a href="https://yandex.ru/maps/?text=Тамбов+Мичуринская+141" class="widget-card address-widget">
       <div class="icon-map">📍</div>
       <div class="address-info">
         <h3 data-i18n="address_city">г. Тамбов, ул. Мичуринская 141</h3>
         <p data-i18n="address_desc">Транзит, 2 ряд</p>
       </div>
-    </div>
+    </a>
 
     <h2 class="section-title section-anchor" id="services-section" data-i18n="services_title">Что мы делаем</h2>
     <div class="services-grid">
@@ -605,25 +583,25 @@
 
     <h2 class="section-title section-anchor" id="contacts-section" data-i18n="contacts_title">Связь с мастером</h2>
     <div class="ios-list">
-      <button class="list-item" onclick="handlePhoneClick()">
-        <div class="item-icon" style="background: var(--ios-green);">📞</div>
-        <div style="flex: 1;">
-          <div style="font-weight: 600;" data-i18n="phone">Телефон</div>
-          <div id="phone-display" class="blur" style="color: var(--ios-gray); font-size: 14px;">8-902-724-60-61</div>
+      <a href="tel:89027246061" class="list-item">
+        <div class="item-icon" style="background: rgba(52, 199, 89, 0.1); color: var(--ios-green);">📞</div>
+        <div class="item-content">
+          <div class="item-title" data-i18n="phone">Телефон</div>
+          <div style="color: var(--text-muted); font-size: 13px;">+7 (902) 724-60-61</div>
         </div>
-      </button>
+      </a>
       <a href="https://t.me/ARTSANDCRAFTING" target="_blank" class="list-item">
-        <div class="item-icon" style="background: #0088cc;">✈️</div>
-        <div style="flex: 1;">
-          <div style="font-weight: 600;" data-i18n="tg_title">Telegram канал</div>
-          <div style="color: var(--ios-gray); font-size: 14px;" data-i18n="tg_desc">Наши новости</div>
+        <div class="item-icon" style="background: rgba(0, 122, 255, 0.1); color: var(--ios-blue);">✈️</div>
+        <div class="item-content">
+          <div class="item-title" data-i18n="tg_title">Telegram канал</div>
+          <div class="item-subtitle" data-i18n="tg_desc">Наши новости</div>
         </div>
       </a>
       <a href="https://max.ru/join/6vA9eQ-0nmP55CTnB5MfnYQ4zmW253WY_fukBZuK5lU" target="_blank" class="list-item">
-        <div class="item-icon" style="background: #5856d6;">🔗</div>
-        <div style="flex: 1;">
-          <div style="font-weight: 600;" data-i18n="max_title">MAX канал</div>
-          <div style="color: var(--ios-gray); font-size: 14px;" data-i18n="max_desc">Присоединиться</div>
+        <div class="item-icon" style="background: rgba(88, 86, 214, 0.1); color: #5856d6;">🔗</div>
+        <div class="item-content">
+          <div class="item-title" data-i18n="max_title">MAX канал</div>
+          <div class="item-subtitle" data-i18n="max_desc">Присоединиться</div>
         </div>
       </a>
     </div>
@@ -641,30 +619,31 @@
       <img src="https://i.postimg.cc/tZKTz4t8/image.jpg" alt="Товар 9">
     </div>
 
-    <footer style="margin-top: 40px; text-align: center; color: var(--ios-gray); font-size: 13px;" data-i18n="footer">
+    <footer style="margin-top: 40px; text-align: center; color: var(--text-muted); font-size: 13px;" data-i18n="footer">
       АРТС&КРАФТИНГ • Тамбов • Мичуринская 141
     </footer>
   </div>
 
-  <!-- НИЖНЯЯ GLASS НАВИГАЦИЯ С SVG ИКОНКАМИ -->
+  <!-- УМНАЯ НИЖНЯЯ ПАНЕЛЬ НАВИГАЦИИ -->
   <div class="bottom-nav-wrapper">
-    <div class="bottom-glass-nav">
-      <a href="#top" class="nav-btn" aria-label="Наверх">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <div class="bottom-glass-nav" id="smart-nav">
+      <a href="#top" class="nav-btn active" data-target="header-section" aria-label="Наверх">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 19V5M5 12l7-7 7 7"/>
         </svg>
       </a>
-      <a href="#services-section" class="nav-btn" aria-label="Услуги">
+      <a href="#services-section" class="nav-btn" data-target="services-section" aria-label="Услуги">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+          <circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle>
+          <line x1="20" y1="4" x2="8.12" y2="15.88"></line><line x1="14.47" y1="14.48" x2="20" y2="20"></line><line x1="8.12" y1="8.12" x2="12" y2="12"></line>
         </svg>
       </a>
-      <a href="#contacts-section" class="nav-btn" aria-label="Контакты">
+      <a href="#contacts-section" class="nav-btn" data-target="contacts-section" aria-label="Контакты">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
         </svg>
       </a>
-      <a href="#goods-section" class="nav-btn" aria-label="Товары">
+      <a href="#goods-section" class="nav-btn" data-target="goods-section" aria-label="Товары">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
           <line x1="3" y1="6" x2="21" y2="6"/>
@@ -685,7 +664,7 @@
         srv2_name: "Замена молнии",
         srv3_name: "Ремонт кожи и меха",
         srv4_name: "Подшив брюк/джинс",
-        from: "от", /* Строго маленькими буквами */
+        from: "от",
         contacts_title: "Связь с мастером",
         phone: "Телефон",
         tg_title: "Telegram канал",
@@ -703,6 +682,7 @@
         status_ny: "Новогодние каникулы",
         status_victory: "С Днем Победы! (Выходной)",
         timer_open: "Мы открыты!",
+        timer_close_until: "До закрытия:",
         timer_until: "До открытия:",
         timer_click: "(нажмите еще раз)",
         timer_d: "дн", timer_h: "ч", timer_m: "мин", timer_s: "сек",
@@ -710,7 +690,9 @@
         menu_founded: "Основан:", menu_date: "22 февраля 2022 г. в 12:08",
         menu_history: "История:", menu_history_text: "Был создан на 2 ряду напротив 'Принт плюс', и потом был перекинут на второй ряд около фотомагазина Kodak.",
         menu_manager: "Управляющая:", menu_manager_name: "Ксения Бондаренко Сергеевна",
-        menu_back: "Вернуться назад"
+        menu_back: "Вернуться назад",
+        theme_dark: "Тёмная тема",
+        theme_light: "Светлая тема"
       },
       en: {
         subtitle: "Clothing repair — honest and on time",
@@ -739,6 +721,7 @@
         status_ny: "New Year holidays",
         status_victory: "Happy Victory Day! (Closed)",
         timer_open: "We are open!",
+        timer_close_until: "Closing in:",
         timer_until: "Opening in:",
         timer_click: "(tap again)",
         timer_d: "d", timer_h: "h", timer_m: "min", timer_s: "sec",
@@ -746,7 +729,9 @@
         menu_founded: "Founded:", menu_date: "February 22, 2022 at 12:08",
         menu_history: "History:", menu_history_text: "Founded in the 2nd row opposite 'Print Plus', then moved to the 2nd row near Kodak photo store.",
         menu_manager: "Manager:", menu_manager_name: "Ksenia Bondarenko Sergeevna",
-        menu_back: "Go back"
+        menu_back: "Go back",
+        theme_dark: "Dark Theme",
+        theme_light: "Light Theme"
       },
       kz: {
         subtitle: "Киім жөндеу — адал және уақытында",
@@ -775,6 +760,7 @@
         status_ny: "Жаңа жылдық демалыс",
         status_victory: "Жеңіс күнімен! (Демалыс)",
         timer_open: "Біз ашықпыз!",
+        timer_close_until: "Жабылуына:",
         timer_until: "Ашылуына:",
         timer_click: "(тағы басыңыз)",
         timer_d: "күн", timer_h: "сағ", timer_m: "мин", timer_s: "сек",
@@ -782,14 +768,27 @@
         menu_founded: "Құрылған:", menu_date: "22 ақпан 2022 ж. 12:08",
         menu_history: "Тарихы:", menu_history_text: "'Принт плюс' қарама-қарсы 2-ші қатарда құрылған, содан кейін Kodak дүкенінің жанындағы 2-ші қатарға ауыстырылған.",
         menu_manager: "Басқарушы:", menu_manager_name: "Ксения Бондаренко Сергеевна",
-        menu_back: "Артқа оралу"
+        menu_back: "Артқа оралу",
+        theme_dark: "Қараңғы тақырып",
+        theme_light: "Жарық тақырып"
       }
     };
 
     let currentLang = 'ru';
+    let isDarkMode = false;
 
     function toggleLangMenu() {
       document.getElementById('lang-menu').classList.toggle('open');
+    }
+
+    function toggleTheme() {
+      isDarkMode = !isDarkMode;
+      document.body.classList.toggle('dark-theme', isDarkMode);
+      
+      const t = dict[currentLang];
+      document.getElementById('theme-icon').innerText = isDarkMode ? '☀️' : '🌙';
+      document.getElementById('theme-text').innerText = isDarkMode ? t.theme_light : t.theme_dark;
+      document.getElementById('lang-menu').classList.remove('open');
     }
 
     function setLang(lang) {
@@ -803,11 +802,10 @@
 
       document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
-        if (dict[lang][key]) {
-          el.innerText = dict[lang][key];
-        }
+        if (dict[lang][key]) el.innerText = dict[lang][key];
       });
-      
+
+      document.getElementById('theme-text').innerText = isDarkMode ? dict[lang].theme_light : dict[lang].theme_dark;
       updateHolidaysAndStatus();
     }
 
@@ -818,54 +816,67 @@
       }
     });
 
-    window.globalIsOpen = false;
-    let phoneRevealed = false;
-    const PHONE_NUMBER = "89027246061";
-    
-    function handlePhoneClick() {
-      const display = document.getElementById('phone-display');
-      if (!phoneRevealed) {
-        display.classList.remove('blur');
-        display.classList.add('unblur');
-        display.style.color = "var(--ios-green)";
-        display.style.fontWeight = "bold";
-        phoneRevealed = true;
-      } else {
-        window.location.href = `tel:${PHONE_NUMBER}`;
-      }
-    }
+    // --- ЛОГИКА АКТИВНОЙ КНОПКИ ВНИЗУ (ОНА НЕ ИСЧЕЗАЕТ) ---
+    const sections = document.querySelectorAll('.section-anchor');
+    const navObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+          const currentId = entry.target.id;
+          document.querySelectorAll('.nav-btn').forEach(btn => {
+            if (btn.getAttribute('data-target') === currentId) {
+              btn.classList.add('active'); // Подсвечиваем логически
+            } else {
+              btn.classList.remove('active'); 
+            }
+          });
+        }
+      });
+    }, { threshold: [0.5] });
 
+    sections.forEach(sec => navObserver.observe(sec));
+
+    window.globalIsOpen = false;
     let titleDissolved = false;
     let timerInterval;
 
-    function getNextOpeningTime(mskNow) {
-      for (let i = 0; i < 30; i++) {
-        let testDay = new Date(mskNow.getTime());
-        if (i > 0) {
-          testDay.setDate(testDay.getDate() + i);
-          testDay.setHours(0, 0, 0, 0); 
-        }
+    function getTargetTime(mskNow, isOpen) {
+      let target = new Date(mskNow.getTime());
+      const month = target.getMonth();
+      const date = target.getDate();
+      const day = target.getDay();
 
-        const month = testDay.getMonth();
-        const date = testDay.getDate();
-        const day = testDay.getDay();
+      if (isOpen) {
+        if (month === 4 && date === 9) target.setHours(15, 0, 0, 0);
+        else if (day >= 1 && day <= 5) target.setHours(18, 0, 0, 0);
+        else if (day === 6) target.setHours(17, 0, 0, 0);
+        return { time: target, type: 'close' };
+      } else {
+        for (let i = 0; i < 30; i++) {
+          let testDay = new Date(mskNow.getTime());
+          if (i > 0) {
+            testDay.setDate(testDay.getDate() + i);
+            testDay.setHours(0, 0, 0, 0); 
+          }
+          const m = testDay.getMonth();
+          const d = testDay.getDate();
+          const w = testDay.getDay();
 
-        const isNewYear = ((month === 11 && date === 31) || (month === 0 && date >= 1 && date <= 4));
-        if (isNewYear) continue; 
-        if (day === 0) continue; 
+          if (((m === 11 && d === 31) || (m === 0 && d >= 1 && d <= 4))) continue; 
+          if (w === 0) continue; 
 
-        let openHour = (day === 6) ? 10 : 9; 
-        testDay.setHours(openHour, 0, 0, 0);
+          let openHour = (w === 6) ? 10 : 9; 
+          testDay.setHours(openHour, 0, 0, 0);
 
-        if (testDay.getTime() > mskNow.getTime()) {
-          return testDay; 
+          if (testDay.getTime() > mskNow.getTime()) {
+            return { time: testDay, type: 'open' };
+          }
         }
       }
       return null;
     }
 
     function handleTitleClick() {
-      if (titleDissolved || window.globalIsOpen) return;
+      if (titleDissolved) return; 
       titleDissolved = true;
       
       const title = document.getElementById('main-title');
@@ -878,10 +889,8 @@
         let span = document.createElement('span');
         span.innerText = text[i] === ' ' ? '\u00A0' : text[i];
         span.className = 'sand-letter';
-        
         let rot = (Math.random() - 0.5) * 80; 
         let delay = Math.random() * 0.4; 
-        
         span.style.setProperty('--rot', rot + 'deg');
         span.style.transitionDelay = delay + 's';
         title.appendChild(span);
@@ -896,12 +905,12 @@
         title.style.display = 'none';
         const now = new Date();
         const mskNow = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (3 * 3600000));
-        const nextOpenTime = getNextOpeningTime(mskNow);
-        if (nextOpenTime) startTimer(nextOpenTime);
+        const targetObj = getTargetTime(mskNow, window.globalIsOpen);
+        if (targetObj) startTimer(targetObj.time, targetObj.type);
       }, 1200);
     }
 
-    function startTimer(targetTimeMsk) {
+    function startTimer(targetTimeMsk, type) {
       const timerEl = document.getElementById('countdown-timer');
       timerEl.style.display = 'block';
       timerEl.onclick = showMiniMenu;
@@ -913,10 +922,26 @@
         const t = dict[currentLang];
 
         if (diff <= 0) {
-           timerEl.innerHTML = `<div style="font-size: 24px; font-weight: 800; color: var(--ios-green);">${t.timer_open}</div>`;
+           timerEl.innerHTML = `<div style="font-size: 24px; font-weight: 800; color: var(--ios-green);">Статус обновлен!</div>`;
            clearInterval(timerInterval);
-           setTimeout(() => location.reload(), 3000); 
+           setTimeout(() => location.reload(), 2000); 
            return;
+        }
+
+        const hoursLeft = diff / (1000 * 60 * 60);
+        let timerColor = '';
+
+        // Градиент цвета от зеленого (15+ часов) до красного (0 часов)
+        if (hoursLeft >= 15) {
+          timerColor = 'rgb(52, 199, 89)'; // Зеленый
+        } else if (hoursLeft <= 0) {
+          timerColor = 'rgb(255, 59, 48)'; // Красный
+        } else {
+          const ratio = hoursLeft / 15; // 0..1
+          const r = Math.round(255 - (255 - 52) * ratio);
+          const g = Math.round(59 + (199 - 59) * ratio);
+          const b = Math.round(48 + (89 - 48) * ratio);
+          timerColor = `rgb(${r}, ${g}, ${b})`;
         }
 
         const d = Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -930,10 +955,12 @@
         timeStr += String(m).padStart(2, '0') + " " + t.timer_m + " ";
         timeStr += String(s).padStart(2, '0') + " " + t.timer_s;
 
+        const headingText = (type === 'close') ? t.timer_close_until : t.timer_until;
+
         timerEl.innerHTML = `
-          <div style="font-size: 14px; color: var(--ios-gray); margin-bottom: 5px;">${t.timer_until}</div>
-          <div style="font-size: 26px; font-weight: 800; color: var(--ios-green);">${timeStr}</div>
-          <div style="font-size: 11px; color: var(--ios-gray); margin-top: 5px;">${t.timer_click}</div>
+          <div style="font-size: 14px; color: var(--text-muted); margin-bottom: 5px;">${headingText}</div>
+          <div style="font-size: 26px; font-weight: 800; color: ${timerColor};">${timeStr}</div>
+          <div style="font-size: 11px; color: var(--text-muted); margin-top: 5px;">${t.timer_click}</div>
         `;
       }
       
@@ -1013,7 +1040,6 @@
       let particleType = null;
       let isHolidayClosed = false;
 
-      // 1. 9 Мая (с 3 по 10 мая)
       if (month === 4 && date >= 3 && date <= 10) {
         wWidget.style.display = 'flex';
         bgRibbons.style.display = 'block';
@@ -1021,51 +1047,31 @@
         wIcon.style.display = 'none';
         wText.innerText = currentLang === 'ru' ? 'С Днем Великой Победы. Мирного неба над головой!' : (currentLang === 'en' ? 'Happy Victory Day. Peaceful sky above!' : 'Жеңіс күні құтты болсын. Аспанымыз ашық болсын!');
         
-        if (date < 9) {
-          wTitle.innerText = currentLang === 'ru' ? 'С наступающим 9 Мая!' : (currentLang === 'en' ? 'Upcoming May 9th!' : 'Келе жатқан 9 мамырмен!');
-        } else {
-          wTitle.innerText = currentLang === 'ru' ? 'С 9 Мая!' : (currentLang === 'en' ? 'Happy May 9th!' : '9 мамыр құтты болсын!');
-        }
+        if (date < 9) wTitle.innerText = currentLang === 'ru' ? 'С наступающим 9 Мая!' : (currentLang === 'en' ? 'Upcoming May 9th!' : 'Келе жатқан 9 мамырмен!');
+        else wTitle.innerText = currentLang === 'ru' ? 'С 9 Мая!' : (currentLang === 'en' ? 'Happy May 9th!' : '9 мамыр құтты болсын!');
       }
-      
-      // 2. Новый год (26 декабря - 14 января)
       else if ((month === 11 && date >= 26) || (month === 0 && date <= 14)) {
         wWidget.style.display = 'flex';
         wIcon.innerText = '🎄';
         wText.innerText = currentLang === 'ru' ? 'Желаем счастья, тепла и уюта в новом году!' : (currentLang === 'en' ? 'Wishing you happiness, warmth and comfort in the new year!' : 'Жаңа жылда бақыт, жылулық пен жайлылық тілейміз!');
         
-        if (month === 11) {
-          wTitle.innerText = currentLang === 'ru' ? 'С наступающим Новым годом!' : (currentLang === 'en' ? 'Happy upcoming New Year!' : 'Келе жатқан Жаңа жылмен!');
-        } else {
-          wTitle.innerText = currentLang === 'ru' ? 'С Новым годом!' : (currentLang === 'en' ? 'Happy New Year!' : 'Жаңа жыл құтты болсын!');
-        }
+        if (month === 11) wTitle.innerText = currentLang === 'ru' ? 'С наступающим Новым годом!' : (currentLang === 'en' ? 'Happy upcoming New Year!' : 'Келе жатқан Жаңа жылмен!');
+        else wTitle.innerText = currentLang === 'ru' ? 'С Новым годом!' : (currentLang === 'en' ? 'Happy New Year!' : 'Жаңа жыл құтты болсын!');
 
-        if (month === 0 && date === 1 && hour >= 0 && hour < 2) {
-          particleType = 'snow-gift';
-        } else {
-          particleType = 'snow';
-        }
+        if (month === 0 && date === 1 && hour >= 0 && hour < 2) particleType = 'snow-gift';
+        else particleType = 'snow';
 
-        if ((month === 11 && date === 31) || (month === 0 && date >= 1 && date <= 4)) {
-          isHolidayClosed = true;
-        }
+        if ((month === 11 && date === 31) || (month === 0 && date >= 1 && date <= 4)) isHolidayClosed = true;
       }
-      
-      // 3. 1 Мая
       else if ((month === 3 && date === 30) || (month === 4 && date <= 2)) {
         wWidget.style.display = 'flex';
         wIcon.innerText = '🌸';
         wText.innerText = currentLang === 'ru' ? 'Весеннего настроения, радости и успехов во всех делах!' : (currentLang === 'en' ? 'Spring mood, joy and success in all your endeavors!' : 'Көктемгі көңіл-күй, қуаныш пен барлық істеріңізге сәттілік тілейміз!');
         particleType = 'flowers';
         
-        if (month === 3 && date === 30) {
-          wTitle.innerText = currentLang === 'ru' ? 'С наступающим 1 Мая!' : (currentLang === 'en' ? 'Upcoming May 1st!' : 'Келе жатқан 1 мамырмен!');
-        } else {
-          wTitle.innerText = currentLang === 'ru' ? 'С 1 Мая! Мир, Труд, Май!' : (currentLang === 'en' ? 'Happy May 1st! Peace, Labor, May!' : '1 мамырмен! Бейбітшілік, Еңбек, Мамыр!');
-        }
+        if (month === 3 && date === 30) wTitle.innerText = currentLang === 'ru' ? 'С наступающим 1 Мая!' : (currentLang === 'en' ? 'Upcoming May 1st!' : 'Келе жатқан 1 мамырмен!');
+        else wTitle.innerText = currentLang === 'ru' ? 'С 1 Мая! Мир, Труд, Май!' : (currentLang === 'en' ? 'Happy May 1st! Peace, Labor, May!' : '1 мамырмен! Бейбітшілік, Еңбек, Мамыр!');
       }
-      
-      // 4. День Рождения магазина
       else if (month === 1 && date === 22) {
         wWidget.style.display = 'flex';
         wIcon.innerText = '🎂';
@@ -1076,7 +1082,6 @@
 
       createParticles(particleType);
 
-      // ЛОГИКА СТАТУСА МАСТЕРСКОЙ
       let open = false;
       let statusString = t.status_closed_tmr; 
 
@@ -1113,7 +1118,7 @@
       }
     }
 
-    const observer = new IntersectionObserver((entries) => {
+    const contentObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.style.opacity = "1";
@@ -1127,11 +1132,10 @@
         el.style.opacity = "0";
         el.style.transform = "translateY(20px)";
         el.style.transition = "all 0.6s ease-out";
-        observer.observe(el);
+        contentObserver.observe(el);
       }
     });
 
-    // Первичный запуск
     setLang('ru'); 
     setInterval(updateHolidaysAndStatus, 30000);
   </script>
